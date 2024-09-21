@@ -55,7 +55,7 @@ export function QrForm() {
 
   return (
     <Card className="min-w-[300px]">
-      <CardHeader>
+      <CardHeader className="text-center">
         <CardTitle>QR Code Generator</CardTitle>
         <CardDescription>Insert a link to create</CardDescription>
       </CardHeader>
