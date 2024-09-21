@@ -57,7 +57,7 @@ export function QrForm() {
     <Card className="min-w-[300px]">
       <CardHeader className="text-center">
         <CardTitle>QR Code Generator</CardTitle>
-        <CardDescription>Insert a link to create</CardDescription>
+        <CardDescription>Enter a valid URL to create</CardDescription>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
