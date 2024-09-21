@@ -99,14 +99,16 @@ export function QrViewer({ url }: QrViewerProps) {
         </div>
       </CardContent>
       <CardFooter className="flex-col gap-3">
-        <div className="grid gap-3 grid-cols-2">
-          <Button className="gap-2" variant="outline" onClick={handleDownload}>
-            <Download className="size-5" /> Download
-          </Button>
-          <Button className="gap-2" onClick={handlePrint}>
-            <Printer className="size-5" /> Print
-          </Button>
-        </div>
+        <Button className="gap-2 w-full" onClick={handlePrint}>
+          <Printer className="size-5" /> Print
+        </Button>
+        <Button
+          className="gap-2 w-full"
+          variant="outline"
+          onClick={handleDownload}
+        >
+          <Download className="size-5" /> Download
+        </Button>
         <Button
           className="gap-1 w-full"
           variant="ghost"
