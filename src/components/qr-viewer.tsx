@@ -2,8 +2,8 @@
 
 import { ArrowLeft, Download, Printer, ScanQrCode } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
-import { useRef } from 'react'
 import QRCode from 'react-qr-code'
+import { toast } from 'sonner'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -24,18 +24,29 @@ export function QrViewer({ url }: QrViewerProps) {
   const pathname = usePathname()
 
   const handlePrint = () => {
-    const printWindow = window.open('', '_blank')
     const element = document.getElementById('qr-code')
 
-    if (printWindow && element) {
-      printWindow.document.write(
-        '<html><head><title>Print QR Code</title></head><body style="display:flex;align-items:center;justify-content:center;height:100vh;margin:0;">',
-      )
-      printWindow.document.write(element.innerHTML)
-      printWindow.document.write('</body></html>')
-      printWindow.document.close()
-      printWindow.print()
+    if (!element) {
+      console.error('Qr code not found')
+      toast.error('An unexpected error occurred. Please try again.')
+      return
     }
+
+    const printWindow = window.open('', '_blank')
+    if (!printWindow) {
+      console.error('The window cannot be generate')
+      toast.error('An unexpected error occurred. Please try again.')
+      return
+    }
+    printWindow.document.write(
+      '<html><head><title>Print QR Code</title></head><body style="display:flex;align-items:center;justify-content:center;height:100vh;margin:0;">',
+    )
+    printWindow.document.write(element.innerHTML)
+    printWindow.document.write('</body></html>')
+    printWindow.document.close()
+    printWindow.print()
+
+    toast.success('Document has been generated')
   }
 
   const handleDownload = () => {
@@ -43,7 +54,8 @@ export function QrViewer({ url }: QrViewerProps) {
     const svg = element?.querySelector('svg')
 
     if (!element || !svg) {
-      console.error('qr-code not found')
+      console.error('Qr code not found')
+      toast.error('An unexpected error occurred. Please try again.')
       return
     }
 
@@ -52,7 +64,8 @@ export function QrViewer({ url }: QrViewerProps) {
     const ctx = canvas.getContext('2d')
 
     if (!ctx) {
-      console.error('canvas context not found')
+      console.error('The canvas context cannot be generated')
+      toast.error('An unexpected error occurred. Please try again.')
       return
     }
 
@@ -68,6 +81,8 @@ export function QrViewer({ url }: QrViewerProps) {
       downloadLink.click()
     }
     img.src = 'data:image/svg+xml;base64,' + btoa(svgData)
+
+    toast.success('Download completed')
   }
 
   return (
